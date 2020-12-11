@@ -20,4 +20,5 @@
   (reset! server (run-server app {:port 4000})))
 
 (comment
-  (-main))
+  (-main)
+  (app {:uri "/ping" :request-method :get}))
