@@ -13,12 +13,20 @@ TODO
 
 ### Requirements
 
-- `TODO`
+- Java8+
+- Clojure
+- Docker
 
 ### Setup
 
-- `TODO`
+##### create alias for docker mac
+- `sudo ifconfig lo0 alias 10.254.254.254` 
+
+##### or linux
+- `sudo apt-get install net-tools -y`
+- `sudo ifconfig lo:0 10.254.254.254.254`
 
 ### Development
 
+- `make up`
 - `make run`

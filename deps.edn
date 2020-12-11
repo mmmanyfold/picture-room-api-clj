@@ -2,6 +2,10 @@
  :deps    {org.clojure/clojure     {:mvn/version "1.10.1"}
            metosin/reitit          {:mvn/version "0.5.10"}
            http-kit/http-kit       {:mvn/version "2.5.0"}
-           org.clojure/tools.nrepl {:mvn/version "0.2.13"}}
- :aliases {:run  {:main-opts ["-m" "api.core"]}
-           :repl {:main-opts ["-r"]}}}
+           org.clojure/tools.nrepl {:mvn/version "0.2.13"}
+           aero/aero               {:mvn/version "1.1.6"}}
+ :aliases {:run     {:main-opts ["-m" "api.core"]}
+           :repl    {:main-opts ["-r"]}
+           :depstar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.136"}}
+                     :ns-default hf.depstar
+                     :exec-args  {:aot false}}}}

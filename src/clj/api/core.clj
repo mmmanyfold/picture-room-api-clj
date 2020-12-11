@@ -1,8 +1,13 @@
 (ns api.core
   (:require [org.httpkit.server :refer [run-server]]
-            [reitit.ring :as ring]))
+            [reitit.ring :as ring]
+            [aero.core :as aero]
+            [clojure.java.io :as io]))
 
 (defonce server (atom nil))
+
+(defn config []
+  (aero/read-config "config.edn" {:profile :dev}))
 
 (defn stop-server []
   (when-not (nil? @server)
@@ -16,8 +21,9 @@
        ["/ping" {:get (fn [_] {:status 200 :body "pong"})}]])))
 
 (defn -main []
-  (println "server started")
-  (reset! server (run-server app {:port 4000})))
+  (let [c (config)]
+     (println (format "server listening on port: %d" (:port c)))
+     (reset! server (run-server app {:port (:port c)}))))
 
 (comment
   (-main)

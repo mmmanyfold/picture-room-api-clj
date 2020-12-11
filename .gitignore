@@ -4,3 +4,5 @@
 lib
 .nrepl-port
 out
+pg-data
+picture-room.jar
