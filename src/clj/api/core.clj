@@ -1,14 +1,17 @@
 (ns api.core
     (:require
+      [api.routes :as routes]
       [org.httpkit.server :refer [run-server]]
       [reitit.ring :as ring]
       [aero.core :as aero]
       [clojure.java.io :as io]
       [muuntaja.core :as m]
-      [reitit.ring.middleware.exception :as exception-handler]
-      [reitit.ring.middleware.muuntaja :refer [format-negotiate-middleware
-                                               format-request-middleware
-                                               format-response-middleware]]))
+      [reitit.ring.coercion :as rrc]
+      [reitit.coercion.spec]
+      [reitit.coercion :as coercion]
+      [reitit.ring.middleware.exception :as exm]
+      [reitit.ring.middleware.parameters :as parm]
+      [reitit.ring.middleware.muuntaja :as muu]))
 
 (declare -main)
 
@@ -29,14 +32,18 @@
 (def app
   (ring/ring-handler
     (ring/router
-      [;; obligatory health check
-       ["/ping" {:get (fn [_] {:status 200 :body "pong"})}]
-       ["/api" {:get (fn [_] {:status 200 :body {:hello "world"}})}]]
-      {:data {:muuntaja   m/instance
-              :middleware [format-negotiate-middleware
-                           format-response-middleware
-                           exception-handler/exception-middleware
-                           format-request-middleware]}})
+      [routes/ping
+       routes/api]
+      {:data {
+              :muuntaja   m/instance
+              :middleware [parm/parameters-middleware
+                           muu/format-negotiate-middleware
+                           muu/format-response-middleware
+                           exm/exception-middleware
+                           muu/format-request-middleware
+                           rrc/coerce-exceptions-middleware
+                           rrc/coerce-request-middleware
+                           rrc/coerce-response-middleware]}})
     (ring/routes
       (ring/redirect-trailing-slash-handler)
       (ring/create-default-handler

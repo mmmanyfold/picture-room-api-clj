@@ -250,3 +250,12 @@ insert into products (
   custom_url                 = :custom_url
 
   returning *;
+
+-- :name get-products :? :*
+-- :doc retrieves all product records
+select * from products;
+
+-- :name get-product :? :1
+-- :doc retrieves a product record by id
+select * from products
+where id = :id;

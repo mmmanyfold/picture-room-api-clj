@@ -1,13 +1,8 @@
 (ns api.db
     (:require
-      [clojure.java.jdbc :as jdbc]
+      [api.jdbc]
       [hugsql.core :as hugsql]
-      [clj-time.core :as time]
-      [clj-time.coerce :as time-coerce]
-      [clojure.data.json :as json])
-    (:import
-      [org.postgresql.util PGobject]
-      [java.sql PreparedStatement]))
+      [clj-time.core :as time]))
 
 (def config
   {:classname   "org.postgresql.Driver"
@@ -18,43 +13,11 @@
 
 (hugsql/def-db-fns "sql/products.sql")
 
-(defn- to-sql-time [t]
-  (time-coerce/to-sql-time t))
-
-;; support (de)serializing postgres jsonb column
-;; based on https://gist.github.com/zelark/3b484e9b16ad55c97b4ed6f6ea13986b
-(defn- ->pg-object [^String type ^String value]
-   (doto (PGobject.)
-         (.setType type)
-         (.setValue value)))
-
-(defn- clj->jsonb-pg-object [x]
-   (->pg-object "jsonb"
-      (if (instance? clojure.lang.IPersistentMap x)
-        (json/write-str x)
-        x)))
-
-(defn- jsonb-pg-object->clj [^PGobject pg-obj]
-   (json/read-str (.getValue pg-obj)))
-
-(extend-protocol jdbc/IResultSetReadColumn
-   PGobject
-   (result-set-read-column [pg-obj _ _]
-     (case (.getType pg-obj)
-           "jsonb" (jsonb-pg-object->clj pg-obj)
-           pg-obj)))
-
-(extend-protocol jdbc/ISQLParameter
-   clojure.lang.IPersistentMap
-   (set-parameter
-     [^clojure.lang.IPersistentMap v ^clojure.lang.IPersistentMap stmt ^long idx]
-    (.setObject stmt idx (clj->jsonb-pg-object v))))
-
 (def test-product
   {:id                         0
-   :created_at                 (to-sql-time (time/now))
-   :updated_at                 (to-sql-time (time/now))
-   :deleted_at                 (to-sql-time (time/now))
+   :created_at                 (time/now)
+   :updated_at                 (time/now)
+   :deleted_at                 (time/now)
    :name                       "foobar"
    :type                       "foobar"
    :sku                        "foobar"
@@ -71,7 +34,7 @@
    :tax_class_id               1
    :product_tax_code           "foobar"
    :calculated_price           0.0
-   :categories                 (into-array Integer/TYPE [1, 2, 3])
+   :categories                 [1, 2, 3]
    :brand_id                   0
    :option_set_id              0
    :option_set_display         "foobar"
@@ -115,4 +78,5 @@
 
 (comment
   (create-products-table config)
-  (create-product! config test-product))
+  (create-product! config test-product)
+  (get-products config))
