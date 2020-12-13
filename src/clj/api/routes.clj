@@ -13,7 +13,9 @@
 (def product
   ["/product"
    ["/:id"
-    {:get handlers/get-product}]])
+    {:coercion reitit.coercion.schema/coercion
+     :parameters {:path {:id s/Int}}
+     :get handlers/get-product}]])
 
 (def products
   ["/products"

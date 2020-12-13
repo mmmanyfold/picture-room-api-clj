@@ -1,10 +1,9 @@
 (ns api.handlers
     (:require [api.db :as db]))
 
-;; TODO: use (:id path-params) as input to query
 (defn get-product
-  [req]
-  (let [product (db/get-product db/config {:id 0})]
+  [{:keys [parameters]}]
+  (let [product (db/get-product db/config {:id (-> parameters :path :id)})]
      {:status 200 :body product}))
 
 (defn get-products [_]
