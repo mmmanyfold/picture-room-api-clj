@@ -10,18 +10,20 @@
   ["/ping"
    {:get (fn [_] {:status 200 :body "pong"})}])
 
-(def product
-  ["/product"
+(def products
+  ["/products"
+   ["" {:get handlers/get-products}]
    ["/:id"
     {:coercion reitit.coercion.schema/coercion
      :parameters {:path {:id s/Int}}
      :get handlers/get-product}]])
 
-(def products
-  ["/products"
-   {:get handlers/get-products}])
+(def webhooks
+  ["/webhooks"
+   ["/product"
+    {:post handlers/update-products}]])
 
 (def api
   ["/api"
-   product
-   products])
+   products
+   webhooks])

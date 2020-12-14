@@ -8,4 +8,7 @@
 
 (defn get-products [_]
   (let [products (db/get-products db/config)]
-       {:status 200 :body products}))
+    {:status 200 :body products}))
+
+(defn update-products
+  [{:keys [parameters]}])

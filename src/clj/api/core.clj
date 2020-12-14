@@ -17,8 +17,8 @@
 
 (defonce server (atom nil))
 
-(defn config []
-  (aero/read-config "config.edn" {:profile :dev}))
+(defn config [profile]
+  (aero/read-config "config.edn" {:profile profile}))
 
 (defn stop-server []
   (when-not (nil? @server)
@@ -34,8 +34,7 @@
     (ring/router
       [routes/ping
        routes/api]
-      {:data {
-              :muuntaja   m/instance
+      {:data {:muuntaja   m/instance
               :middleware [parm/parameters-middleware
                            muu/format-negotiate-middleware
                            muu/format-response-middleware
@@ -50,7 +49,7 @@
         {:not-found (constantly {:status 404 :body "route not found"})}))))
 
 (defn -main []
-  (let [c (config)]
+  (let [c (config :dev)]
      (println (format "server listening on port: %d" (:port c)))
      (reset! server (run-server app {:port (:port c)}))))
 

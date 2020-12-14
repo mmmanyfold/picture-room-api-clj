@@ -6,3 +6,5 @@ lib
 out
 pg-data
 picture-room.jar
+# configs
+secrets.edn
