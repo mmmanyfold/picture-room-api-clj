@@ -21,7 +21,7 @@
 (def webhooks
   ["/webhooks"
    ["/product"
-    {:post handlers/update-products}]])
+    {:post handlers/update-product}]])
 
 (def api
   ["/api"

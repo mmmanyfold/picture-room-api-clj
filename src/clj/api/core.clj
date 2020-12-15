@@ -34,7 +34,8 @@
     (ring/router
       [routes/ping
        routes/api]
-      {:data {:muuntaja   m/instance
+      {:data {:config     (config :dev)
+              :muuntaja   m/instance
               :middleware [parm/parameters-middleware
                            muu/format-negotiate-middleware
                            muu/format-response-middleware
@@ -51,8 +52,9 @@
 (defn -main []
   (let [c (config :dev)]
      (println (format "server listening on port: %d" (:port c)))
-     (reset! server (run-server app {:port (:port c)}))))
+     (reset! server (run-server app {:port (:port c) :config c}))))
 
 (comment
   (-main)
-  (app {:uri "/ping" :request-method :get}))
+  (app {:uri "/ping" :request-method :get})
+  (app {:uri "/api/webhooks/product" :request-method :post}))
