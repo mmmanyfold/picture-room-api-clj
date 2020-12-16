@@ -4,8 +4,11 @@
 
 (defn get-product
   [{:keys [parameters]}]
-  (let [product (db/get-product db/config {:id (-> parameters :path :id)})]
-     {:status 200 :body product}))
+  (let [id (-> parameters :path :id)
+        product (db/get-product db/config {:id id})]
+     (if product
+       {:status 200 :body product}
+       {:status 404 :body {:error (format "no product found with id: %d" id)}})))
 
 (defn get-products [_]
   (let [products (db/get-products db/config)]
