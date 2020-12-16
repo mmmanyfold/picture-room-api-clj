@@ -8,3 +8,4 @@ pg-data
 picture-room.jar
 # configs
 secrets.edn
+.rebel_readline_history

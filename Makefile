@@ -1,10 +1,10 @@
-PHONY: run repl up down jar down db-init lint
+PHONY: run repl up down jar down db-init lint test
 
 run:
 	clj -M:run
 
 repl:
-	clj -M:repl
+	clojure -A:rebel
 
 jar:
 	clj -X:depstar jar :jar picture-room.jar
@@ -21,3 +21,6 @@ db-init:
 
 lint:
 	clj -M:clj-kondo --lint src
+
+test:
+	clj -M:test:runner

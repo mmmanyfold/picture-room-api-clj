@@ -37,6 +37,10 @@ TODO
 
 - `make jar`
 
+### Test
+
+- `make test`
+
 ### TODO
 
 - [ ] add live reload
