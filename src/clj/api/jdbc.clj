@@ -4,8 +4,7 @@
       [clj-time.coerce :as time-coerce]
       [clojure.data.json :as json])
     (:import
-      [org.postgresql.util PGobject]
-      [java.sql PreparedStatement]))
+      [org.postgresql.util PGobject]))
 
 ;; support (de)serializing postgres jsonb column
 ;; based on https://gist.github.com/zelark/3b484e9b16ad55c97b4ed6f6ea13986b

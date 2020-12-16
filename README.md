@@ -28,5 +28,17 @@ TODO
 
 ### Development
 
-- `make up`
-- `make run`
+- `make up` # spins up docker-compose
+- `make run` # runs code locally (no live-reload yet)
+- `make lint`
+- `make repl`
+
+### Production
+
+- `make jar`
+
+### TODO
+
+- [ ] add live reload
+
+

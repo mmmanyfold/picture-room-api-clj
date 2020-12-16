@@ -11,13 +11,10 @@
   (let [products (db/get-products db/config)]
     {:status 200 :body products}))
 
-(defn update-products
-  [{:keys [parameters]}])
-
 (defn update-product [req]
   ;; TODO: get product id from ProductWebhookPayload
   (let [config (get-in req [:reitit.core/match :data :config :bigcommerce])
-        {:keys [status headers body error]} (bc/fetch-product config 112)]
+        {:keys [status body error]} (bc/fetch-product config 112)]
        ;; TODO: update db with prod info from API instead of retuning product info here
        (if (= status 200)
          {:status status :body body}

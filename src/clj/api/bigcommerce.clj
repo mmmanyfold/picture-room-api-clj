@@ -11,9 +11,9 @@
 ;; TODO: recursively get all products
 (defn fetch-products
   "fetch all products from bigcommerce API"
-  [config {:keys [store limit page]}]
+  [{:keys [store limit page]}]
   (let [endpoint (format (endpoints :products) store limit page includes)]
-       endpoints))
+       endpoint))
 
 (defn fetch-product
   "fetch product info from bigcommerce API by product id"

@@ -8,10 +8,12 @@
            com.layerware/hugsql      {:mvn/version "0.5.1"}
            org.clojure/data.json     {:mvn/version "1.0.0"}
            clj-time/clj-time         {:mvn/version "0.15.2"}}
- :aliases {:run      {:main-opts ["-m" "api.core"]}
-           :repl     {:main-opts ["-r"]}
-           :depstar  {:extra-deps {seancorfield/depstar {:mvn/version "1.1.136"}}
-                      :ns-default hf.depstar
-                      :exec-args  {:aot false}}
-           :migratus {:extra-deps {orangefoxcollective/clj-migratus {:mvn/version "0.1.0"}}
-                      :main-opts  ["-m" "clj-migratus.core"]}}}
+ :aliases {:run       {:main-opts ["-m" "api.core"]}
+           :repl      {:main-opts ["-r"]}
+           :depstar   {:extra-deps {seancorfield/depstar {:mvn/version "1.1.136"}}
+                       :ns-default hf.depstar
+                       :exec-args  {:aot false}}
+           :migratus  {:extra-deps {orangefoxcollective/clj-migratus {:mvn/version "0.1.0"}}
+                       :main-opts  ["-m" "clj-migratus.core"]}
+           :clj-kondo {:extra-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
+                       :main-opts  ["-m" "clj-kondo.main"]}}}

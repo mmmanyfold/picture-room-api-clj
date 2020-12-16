@@ -2,8 +2,7 @@
     (:require
       [reitit.coercion.schema]
       [api.handlers :as handlers]
-      [schema.core :as s]
-      [api.db :as db]))
+      [schema.core :as s]))
 
 ;; obligatory health check
 (def ping
@@ -21,7 +20,8 @@
 (def webhooks
   ["/webhooks"
    ["/product"
-    {:post handlers/update-product}]])
+    {:parameters {:path {:id s/Int}}
+     :post handlers/update-product}]])
 
 (def api
   ["/api"

@@ -1,4 +1,4 @@
-PHONY: run repl up down jar
+PHONY: run repl up down jar down db-init lint
 
 run:
 	clj -M:run
@@ -17,4 +17,7 @@ down:
 	docker-compose down
 
 db-init:
-	clj -A:migratus init
+	clj -M:migratus init
+
+lint:
+	clj -M:clj-kondo --lint src
