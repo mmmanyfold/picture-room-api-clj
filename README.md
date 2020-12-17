@@ -8,7 +8,16 @@
 ```
 {root}
 
-TODO
+src
+└── clj
+    └── api
+        ├── bigcommerce.clj # functions for interacting with big-commerce API
+        ├── core.clj        # app's main entry and middleware configurations
+        ├── cron.clj        # routine-like job setup for syncing products to DB
+        ├── db.clj          # DB config details
+        ├── handlers.clj    # handlers that interact with the DB
+        ├── jdbc.clj        # support for various SQL <> Clojure data types
+        └── routes.clj      # API routes
 ```
 
 ### Requirements
@@ -44,5 +53,6 @@ TODO
 ### TODO
 
 - [ ] add live reload
+- [ ] add migration support
 
 
