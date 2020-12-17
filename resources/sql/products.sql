@@ -25,7 +25,6 @@ create table if not exists products
     calculated_price           double precision not null default 0.0,
     categories                 int8[],
     brand_id                   int8 not null default 0,
-    option_set_id              int8 not null default 0,
     option_set_display         varchar(32) not null default '',
     inventory_level            int8 not null default 0,
     inventory_warning_level    int8 not null default 0,
@@ -57,12 +56,10 @@ create table if not exists products
     date_created               varchar(128) not null default '',
     date_modified              varchar(128) not null default '',
     view_count                 int8 not null default 0,
-    preorder_release_date      varchar(128) not null default '',
     preorder_message           varchar(2048) not null default '',
     is_preorder_only           bool not null default false,
     is_price_hidden            bool not null default false,
     price_hidden_label         varchar(2048) not null default '',
-    base_variant_id            int8 not null default 0,
     custom_url                 jsonb not null default '{}'
 );
 
@@ -90,7 +87,6 @@ insert into products (
   calculated_price,
   categories,
   brand_id,
-  option_set_id,
   option_set_display,
   inventory_level,
   inventory_warning_level,
@@ -122,12 +118,10 @@ insert into products (
   date_created,
   date_modified,
   view_count,
-  preorder_release_date,
   preorder_message,
   is_preorder_only,
   is_price_hidden,
   price_hidden_label,
-  base_variant_id,
   custom_url
 ) values (
   :id,
@@ -151,7 +145,6 @@ insert into products (
   :calculated_price,
   :categories,
   :brand_id,
-  :option_set_id,
   :option_set_display,
   :inventory_level,
   :inventory_warning_level,
@@ -183,12 +176,10 @@ insert into products (
   :date_created,
   :date_modified,
   :view_count,
-  :preorder_release_date,
   :preorder_message,
   :is_preorder_only,
   :is_price_hidden,
   :price_hidden_label,
-  :base_variant_id,
   :custom_url
 ) on conflict (id) do update set
   updated_at                 = now(),
@@ -209,7 +200,6 @@ insert into products (
   calculated_price           = :calculated_price,
   categories                 = :categories,
   brand_id                   = :brand_id,
-  option_set_id              = :option_set_id,
   option_set_display         = :option_set_display,
   inventory_level            = :inventory_level,
   inventory_warning_level    = :inventory_warning_level,
@@ -241,12 +231,10 @@ insert into products (
   date_created               = :date_created,
   date_modified              = :date_modified,
   view_count                 = :view_count,
-  preorder_release_date      = :preorder_release_date,
   preorder_message           = :preorder_message,
   is_preorder_only           = :is_preorder_only,
   is_price_hidden            = :is_price_hidden,
   price_hidden_label         = :price_hidden_label,
-  base_variant_id            = :base_variant_id,
   custom_url                 = :custom_url
 
   returning *;

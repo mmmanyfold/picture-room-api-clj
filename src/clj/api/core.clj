@@ -1,5 +1,6 @@
 (ns api.core
     (:require
+      [api.cron]
       [api.routes :as routes]
       [org.httpkit.server :refer [run-server]]
       [reitit.ring :as ring]
@@ -50,6 +51,7 @@
 (defn -main []
   (let [c (config :dev)]
      (println (format "server listening on port: %d" (:port c)))
+     (api.cron/start c)
      (reset! server (run-server app {:port (:port c)}))))
 
 (comment
