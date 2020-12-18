@@ -247,3 +247,13 @@ select * from products;
 -- :doc retrieves a product record by id
 select * from products
 where id = :id;
+
+-- :name delete-product! :! :n
+-- :doc deletes a product record given the id
+delete from products
+where id = :id;
+
+-- :name update-inventory-level! :! :n
+update products
+set inventory_level = :inventory_level
+where id = :id;

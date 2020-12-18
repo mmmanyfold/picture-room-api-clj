@@ -13,15 +13,19 @@
   ["/products"
    ["" {:get handlers/get-products}]
    ["/:id"
-    {:coercion reitit.coercion.schema/coercion
+    {:coercion   reitit.coercion.schema/coercion
      :parameters {:path {:id s/Int}}
-     :get handlers/get-product}]])
+     :get        handlers/get-product}]])
 
 (def webhooks
   ["/webhooks"
    ["/product"
-    {:parameters {:path {:id s/Int}}
-     :post handlers/update-product}]])
+    {:coercion   reitit.coercion.schema/coercion
+     :parameters {:body {:scope s/Str
+                         :data  {:id s/Int
+                                 :inventory
+                                     {:value s/Int}}}}
+     :post       handlers/update-product}]])
 
 (def api
   ["/api"
