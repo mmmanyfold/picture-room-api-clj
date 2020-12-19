@@ -5,6 +5,7 @@ lib
 .nrepl-port
 out
 pg-data
+pg-data-test
 picture-room.jar
 # configs
 secrets.edn

@@ -1,4 +1,4 @@
-PHONY: run repl up down jar down db-init lint test
+.PHONY: run repl up down jar down db-init lint test integration-test
 
 run:
 	clj -M:run
@@ -24,3 +24,8 @@ lint:
 
 test:
 	clj -M:test:runner
+
+integration-test:
+	docker-compose -f ./docker-compose.test.yaml build
+	docker-compose -f ./docker-compose.test.yaml up -d && make test
+	docker-compose -f ./docker-compose.test.yaml down

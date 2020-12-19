@@ -15,7 +15,7 @@
 
 (defn get-products [_]
   (let [products (db/get-products db/config)]
-    {:status 200 :body products}))
+    {:status 200 :body {:data products}}))
 
 (defn update-product [req]
   (let [config (-> req :reitit.core/match :data :config :bigcommerce)

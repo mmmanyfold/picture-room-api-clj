@@ -1,6 +1,4 @@
--- :name create-products-table
--- :command :execute
--- :result :raw
+-- :name create-products-table! :!
 -- :doc creates products table
 create table if not exists products
 (
@@ -257,3 +255,7 @@ where id = :id;
 update products
 set inventory_level = :inventory_level
 where id = :id;
+
+-- :name drop-products-table! :! :n
+-- :doc drops products table
+drop table products;

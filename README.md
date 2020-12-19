@@ -48,7 +48,7 @@ src
 
 ### Test
 
-- `make test`
+- `make integration-test` # runs integration tests
 
 ### TODO
 
