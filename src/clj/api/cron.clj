@@ -18,8 +18,7 @@
 (def interval (hours 1))
 
 (defn task-wrapper [config]
-  (let [c (:bigcommerce config)
-        products (bc/fetch-products c 1 400)]
+  (let [products (bc/fetch-products config 1 400)]
     (when (> (count products) 0)
       (doseq [p (:data products)]
         (db/create-product! db/config (db/product-insert-params p))))))
@@ -27,8 +26,9 @@
 (defn start
   [config]
   (go
+    (println (format "cronjob scheduled: %s" (now)))
     (while @running
       (<! (timeout interval))
-      (println (format "cronjob started at: %s" (now)))
+      (println (format "cronjob started: %s" (now)))
       (task-wrapper config)
-      (println (format "cronjob completed at: %s" (now))))))
+      (println (format "cronjob completed: %s" (now))))))

@@ -13,11 +13,20 @@
       [ring.adapter.jetty :as jetty]
       [integrant.core :as ig]))
 
+(defn read-config [profile]
+  (aero/read-config "config.edn" {:profile profile}))
+
 (def system-config
-  {:api/jetty   {:port    4000
+  {:api/config  {}
+   :api/jetty   {:port    4000
                  :join?   false
                  :handler (ig/ref :api/handler)}
-   :api/handler {}})
+   :api/handler {}
+   :api/tasks   {:config (ig/ref :api/config)}})
+
+(defmethod ig/init-key :api/config [_ _]
+   ;; can be set to ENV variable to load :prod or :test
+   (read-config :dev))
 
 (defmethod ig/init-key :api/jetty [_ {:keys [port join? handler]}]
    (println (format "server listening on port: %d" port))
@@ -46,11 +55,8 @@
        (ring/create-default-handler
          {:not-found (constantly {:status 404 :body "route not found"})}))))
 
-(defn config [profile]
-  (aero/read-config "config.edn" {:profile profile}))
+(defmethod ig/init-key :api/tasks [_ {:keys [config]}]
+   (api.cron/start (-> config :api/config :bigcommerce)))
 
 (defn -main []
-  (let [c (config :dev)]
-  ;; TODO: bootstrap cronjob with integrant
-  (api.cron/start c))
-  (ig/init system-config))
+   (ig/init system-config))

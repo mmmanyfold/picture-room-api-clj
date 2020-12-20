@@ -1,4 +1,5 @@
-{:secrets     #include #join [#env CWD "./secrets.edn"]
- :bigcommerce #profile #ref [:secrets :bigcommerce]
- :port        #profile {:dev  4000
-                        :prod 8080}}
+{:api/config
+ {:secrets     #include #join [#env CWD "./secrets.edn"]
+  :bigcommerce #profile #ref [:api/config :secrets :bigcommerce]
+  :port        #profile {:dev  4000
+                         :prod 8080}}}
