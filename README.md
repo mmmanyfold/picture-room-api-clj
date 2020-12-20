@@ -48,11 +48,11 @@ src
 
 ### Test
 
-- `make integration-test` # runs integration tests
+- `make test` # runs integration tests
 
 ### TODO
 
-- [ ] add live reload
+- [ ] add actual error/exception handling (lol)
 - [ ] add migration support
 
 

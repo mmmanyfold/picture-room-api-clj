@@ -1,10 +1,10 @@
-.PHONY: run repl up down jar down db-init lint test integration-test
+.PHONY: run repl up down jar down db-init lint test
 
 run:
 	clj -M:run
 
 repl:
-	clojure -A:rebel
+	clj -M:repl
 
 jar:
 	clj -X:depstar jar :jar picture-room.jar
@@ -23,9 +23,6 @@ lint:
 	clj -M:clj-kondo --lint src
 
 test:
-	clj -M:test:runner
-
-integration-test:
 	docker-compose -f ./docker-compose.test.yaml build
-	docker-compose -f ./docker-compose.test.yaml up -d && make test
+	docker-compose -f ./docker-compose.test.yaml up -d && clj -M:test:runner
 	docker-compose -f ./docker-compose.test.yaml down

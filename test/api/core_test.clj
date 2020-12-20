@@ -12,7 +12,8 @@
 (defn db-setup [f]
   (db/create-products-table! db/config)
   (f)
-  (db/drop-products-table! db/config))
+  ;;(db/drop-products-table! db/config)
+      )
 
 (use-fixtures :once db-setup)
 
