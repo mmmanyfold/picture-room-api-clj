@@ -8,6 +8,8 @@
 ```
 {root}
 
+dev
+└── user.clj            # utilities for repl driven development (make repl)
 src
 └── clj
     └── api
@@ -37,10 +39,12 @@ src
 
 ### Development
 
-- `make up` # spins up docker-compose
-- `make run` # runs code locally (no live-reload yet)
-- `make lint`
-- `make repl`
+1. `make up` # spins up docker-compose
+2. `make run` # runs code locally
+
+#### Additional dev tasks
+- `make lint` # lints code via clj-kondo
+- `make repl` # spins up rebel-readline
 
 ### Production
 

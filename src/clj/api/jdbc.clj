@@ -6,6 +6,10 @@
     (:import
       [org.postgresql.util PGobject]))
 
+;; Disclaimer: there is probably a cleaner way to set all this up probably via a library
+;; but I couldn't any that supported exactly these extentions specifically to convert
+;; clojure data to and from SQL
+
 ;; support (de)serializing postgres jsonb column
 ;; based on https://gist.github.com/zelark/3b484e9b16ad55c97b4ed6f6ea13986b
 (defn- ->pg-object [^String type ^String value]

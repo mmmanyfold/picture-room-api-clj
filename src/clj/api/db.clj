@@ -4,6 +4,12 @@
       [clj-time.core :as time]
       [hugsql.core :as hugsql]))
 
+;; avoids lint warnings of unresolved symbol by clj-kondo
+(declare create-products-table!)
+(declare create-product!)
+(declare get-products)
+(declare update-inventory-level!)
+
 (def config
   {:classname   "org.postgresql.Driver"
    :subprotocol "postgres"
@@ -75,5 +81,5 @@
 
 (comment
   (create-products-table! config)
-  (create-product! config test-product-insert)
+  (create-product! config {})
   (get-products config))
