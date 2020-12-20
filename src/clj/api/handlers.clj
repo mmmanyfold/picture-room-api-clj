@@ -18,7 +18,7 @@
     {:status 200 :body {:data products}}))
 
 (defn update-product [req]
-  (let [config (-> req :reitit.core/match :data :config :bigcommerce)
+  (let [config (-> req :reitit.core/match :data :bigcommerce)
         params (-> req :parameters :body)
         res (webhook-router config params)]
        (if res

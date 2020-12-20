@@ -21,7 +21,7 @@
    :api/jetty   {:port    4000
                  :join?   false
                  :handler (ig/ref :api/handler)}
-   :api/handler {}
+   :api/handler {:config (ig/ref :api/config)}
    :api/tasks   {:config (ig/ref :api/config)}})
 
 (defmethod ig/init-key :api/config [_ _]
@@ -36,20 +36,21 @@
 (defmethod ig/halt-key! :api/jetty [_ server]
    (.stop server))
 
-(defmethod ig/init-key :api/handler [_ _]
+(defmethod ig/init-key :api/handler [_ {:keys [config]}]
    (ring/ring-handler
      (ring/router
        [routes/ping
         routes/api]
-       {:data {:muuntaja   m/instance
-               :middleware [parm/parameters-middleware
-                            muu/format-negotiate-middleware
-                            muu/format-response-middleware
-                            exm/exception-middleware
-                            muu/format-request-middleware
-                            rrc/coerce-exceptions-middleware
-                            rrc/coerce-request-middleware
-                            rrc/coerce-response-middleware]}})
+       {:data {:bigcommerce (-> config :api/config :bigcommerce)
+               :muuntaja    m/instance
+               :middleware  [parm/parameters-middleware
+                             muu/format-negotiate-middleware
+                             muu/format-response-middleware
+                             exm/exception-middleware
+                             muu/format-request-middleware
+                             rrc/coerce-exceptions-middleware
+                             rrc/coerce-request-middleware
+                             rrc/coerce-response-middleware]}})
      (ring/routes
        (ring/redirect-trailing-slash-handler)
        (ring/create-default-handler
