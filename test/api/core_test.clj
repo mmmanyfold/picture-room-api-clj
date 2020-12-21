@@ -12,8 +12,7 @@
 (defn db-setup [f]
   (db/create-products-table! db/config)
   (f)
-  ;;(db/drop-products-table! db/config)
-      )
+  (db/drop-products-table! db/config))
 
 (use-fixtures :once db-setup)
 
@@ -22,20 +21,20 @@
    (testing "test product insert"
       (let [product (db/product-insert-params test-product)
             res (db/create-product! db/config product)]
-           (= 1 (:id res))))
+           (is (= 1 (-> res first :id)))))
 
    (testing "get products from products table"
       (let [products (db/get-products db/config)]
-           (= (count products) 1)))
+           (is (= (count products) 1))))
 
    (testing "update inventory level"
       (let [product (db/update-inventory-level! db/config {:id 1 :inventory_level 99})
             product (db/get-product db/config {:id 1})]
-           (= (:inventory_level product) 99)))
+           (is (= (:inventory_level product) 99))))
 
    (testing "delete products from products table"
       (let [res (db/delete-product! db/config {:id 1})]
-         (= res 1)))
+         (is (= res 1))))
 
    (testing "GET all products"
       (let [product (db/product-insert-params test-product)
@@ -43,9 +42,15 @@
             resp (handlers/get-products (mock/request :get "/api/products"))]
            (is (= (:status resp) 200))
            (is (= (-> resp :body :data first :id) 1))
-           (is (= (-> resp :body :data first :reviews_rating_sum) 10)))))
+           (is (= (-> resp :body :data first :reviews_rating_sum) 10))))
 
-(deftest product-api-requests)
+   (testing "webhook product update inventory value"
+      (let [resp (handlers/update-product {:parameters {:body {:scope "store/product/inventory/updated"
+                                                               :data {:id 1
+                                                                      :inventory {:value 999}}}}})
+            product (db/get-product db/config {:id 1})]
+           (is (= (:status resp) 200))
+           (is (= (product :inventory_level) 999)))))
 
 (def test-product
   {:id                         1

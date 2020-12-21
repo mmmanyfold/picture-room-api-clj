@@ -9,7 +9,7 @@
 {root}
 
 dev
-└── user.clj            # utilities for repl driven development (make repl)
+└── user.clj                # utilities for repl driven development (make repl)
 src
 └── clj
     └── api
